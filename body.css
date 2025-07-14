@@ -1,0 +1,33 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('URL_CUA_ANH_BAN_TAI_LEN'); /* Thay thế bằng URL thực tế của ảnh */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: #333; /* Màu chữ dễ đọc trên nền */
+}
+
+.birthday-card {
+    background-color: rgba(255, 255, 255, 0.8); /* Nền trắng hơi trong suốt để chữ nổi bật */
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    margin: 20px;
+}
+
+h1 {
+    color: #e94e77; /* Màu hồng dễ thương */
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1.1em;
+    line-height: 1.6;
+}
