@@ -1,33 +1,84 @@
+/* Thiết lập chung cho toàn bộ trang */
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-image: url('URL_CUA_ANH_BAN_TAI_LEN'); /* Thay thế bằng URL thực tế của ảnh */
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    color: #333; /* Màu chữ dễ đọc trên nền */
+    /* Sử dụng Google Fonts để có font chữ dễ thương hơn.
+       Bạn cần thêm link font vào phần <head> của HTML, ví dụ:
+       <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+       Hoặc bạn có thể chọn font khác từ Google Fonts. */
+    font-family: 'Caveat', cursive; /* Font chữ viết tay, dễ thương */
+    
+    display: flex; /* Dùng Flexbox để căn giữa nội dung thiệp */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    min-height: 100vh; /* Chiều cao tối thiểu bằng 100% chiều cao của viewport */
+
+    /* Background của thiệp */
+    background-image: url('https://lehuuthao.github.io/thiepsinhnhat/phong.jpg');
+    background-size: cover; /* Đảm bảo ảnh nền phủ kín toàn bộ */
+    background-position: center center; /* Căn giữa ảnh nền */
+    background-repeat: no-repeat; /* Không lặp lại ảnh nền */
+    background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn */
+
+    color: #333; /* Màu chữ mặc định cho dễ đọc trên nền sáng của card */
 }
 
+/* Kiểu dáng của thẻ thiệp sinh nhật */
 .birthday-card {
-    background-color: rgba(255, 255, 255, 0.8); /* Nền trắng hơi trong suốt để chữ nổi bật */
-    padding: 40px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 600px;
-    margin: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* Nền trắng hơi trong suốt (0.9 độ trong suốt) */
+    padding: 40px; /* Khoảng cách bên trong card */
+    border-radius: 20px; /* Bo tròn góc nhiều hơn, trông mềm mại */
+    text-align: center; /* Căn giữa chữ trong card */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Đổ bóng sâu hơn để tạo hiệu ứng nổi bật */
+    max-width: 650px; /* Chiều rộng tối đa của card, lớn hơn một chút */
+    margin: 20px; /* Khoảng cách xung quanh card */
+
+    /* Để các icon động có thể định vị tương đối bên trong card */
+    position: relative; 
+    overflow: hidden; /* Đảm bảo các icon không tràn ra ngoài card */
 }
 
+/* Kiểu dáng cho tiêu đề h1 */
 h1 {
-    color: #e94e77; /* Màu hồng dễ thương */
-    margin-bottom: 20px;
+    color: #ff69b4; /* Màu hồng nóng, tươi sáng và đáng yêu */
+    margin-bottom: 25px; /* Khoảng cách dưới tiêu đề */
+    font-size: 3em; /* Kích thước chữ lớn hơn cho tiêu đề */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Thêm đổ bóng nhẹ cho chữ */
 }
 
+/* Kiểu dáng cho đoạn văn bản (lời chúc) */
 p {
-    font-size: 1.1em;
-    line-height: 1.6;
+    font-size: 1.2em; /* Kích thước chữ lớn hơn một chút */
+    line-height: 1.7; /* Khoảng cách dòng thoáng hơn */
+    color: #555; /* Màu chữ xám đậm hơn một chút để dễ đọc */
+    margin-bottom: 15px; /* Khoảng cách dưới mỗi đoạn văn bản */
 }
+
+/* -------------------------------------- */
+/* Hiệu ứng động cho tiêu đề (nếu bạn muốn) */
+/* Bạn sẽ cần thêm <span class="blink"> vào trong <h1> nếu muốn dùng hiệu ứng này */
+.blink {
+    animation: blink-animation 1.5s linear infinite alternate; /* Nhấp nháy chậm hơn, mượt mà hơn */
+}
+
+@keyframes blink-animation {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; } /* Mờ đi một nửa */
+    100% { opacity: 1; }
+}
+
+/* -------------------------------------- */
+/* Để responsive hơn trên các thiết bị nhỏ */
+@media (max-width: 768px) {
+    .birthday-card {
+        padding: 25px;
+        border-radius: 10px;
+        max-width: 90%; /* Điều chỉnh lại kích thước trên màn hình nhỏ hơn */
+    }
+    h1 {
+        font-size: 2.2em;
+    }
+    p {
+        font-size: 1em;
+    }
+}
+

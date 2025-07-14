@@ -3,15 +3,329 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chúc mừng sinh nhật!</title>
-    <link rel="stylesheet" href="body.css">
+    <title>Biểu Tượng và Ảnh Chuyển Động</title>
+    <!-- Tailwind CSS CDN để dễ dàng tạo kiểu -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Thiết lập font Inter */
+        body {
+            font-family: "Inter", sans-serif;
+            overflow: hidden; /* Ngăn cuộn trang nếu các icon/ảnh bay ra ngoài */
+            background: linear-gradient(to bottom right, #bfdbfe, #d8b4fe); /* Nền gradient */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative; /* Đảm bảo body là container cho các icon/ảnh nếu cần */
+        }
+
+        /* Các keyframe cho hiệu ứng nổi (floating) */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* Các keyframe cho hiệu ứng xoay (rotating) */
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Các keyframe cho hiệu ứng nảy (bouncing) */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-30px);
+            }
+        }
+
+        /* Các keyframe cho hiệu ứng nhấp nháy (pulse) */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Kiểu cơ bản cho container icon */
+        .icon-container {
+            position: absolute;
+            cursor: pointer;
+            border-radius: 9999px; /* Tạo hình tròn */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Thêm bóng */
+            transition: transform 0.3s ease-in-out; /* Hiệu ứng hover */
+            z-index: 10; /* Đảm bảo icon nằm trên nền nhưng dưới thẻ chúc mừng */
+        }
+
+        /* Hiệu ứng hover cho icon */
+        .icon-container:hover {
+            transform: scale(1.2);
+        }
+
+        /* Kiểu cho SVG icon */
+        .icon-svg {
+            width: 40px;
+            height: 40px;
+            fill: currentColor; /* Sử dụng màu của text */
+        }
+
+        /* Kiểu cơ bản cho container ảnh */
+        .image-item {
+            position: absolute;
+            border-radius: 0.75rem; /* Góc bo tròn */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Thêm bóng */
+            transition: transform 0.3s ease-in-out; /* Hiệu ứng hover */
+            z-index: 5; /* Đảm bảo ảnh nằm dưới icon và thẻ chúc mừng */
+            background-color: rgba(255, 255, 255, 0.8); /* Nền trắng hơi trong suốt */
+            padding: 0.5rem; /* Padding để tạo viền trắng */
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Đảm bảo ảnh không bị méo */
+            border-radius: 0.5rem; /* Góc bo tròn cho ảnh bên trong */
+        }
+
+        .image-item:hover {
+            transform: scale(1.1);
+        }
+
+        /* Áp dụng hiệu ứng nổi */
+        .float-animation {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Áp dụng hiệu ứng xoay */
+        .rotate-animation {
+            animation: rotate 6s linear infinite;
+        }
+
+        /* Áp dụng hiệu ứng nảy */
+        .bounce-animation {
+            animation: bounce 2s ease-out infinite;
+        }
+
+        /* Áp dụng hiệu ứng nhấp nháy */
+        .pulse-animation {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Responsive positioning for icons */
+        .icon-1 { top: 10%; left: 5%; }
+        .icon-2 { top: 20%; right: 10%; }
+        .icon-3 { bottom: 15%; left: 15%; }
+        .icon-4 { bottom: 5%; right: 5%; }
+        .icon-5 { top: 50%; left: 50%; transform: translate(-50%, -50%); } /* Giữa màn hình */
+        .icon-6 { top: 5%; left: 40%; }
+        .icon-7 { bottom: 10%; left: 45%; }
+        .icon-8 { top: 30%; left: 25%; }
+        .icon-9 { bottom: 20%; right: 25%; }
+        .icon-10 { top: 60%; right: 15%; }
+
+        /* Responsive positioning for images */
+        .img-1 { top: 8%; left: 20%; width: 100px; height: 100px; animation: float 5s ease-in-out infinite; }
+        .img-2 { top: 30%; right: 5%; width: 120px; height: 90px; animation: pulse 3s ease-in-out infinite; }
+        .img-3 { bottom: 10%; left: 30%; width: 90px; height: 110px; animation: bounce 2.5s ease-out infinite; }
+        .img-4 { top: 15%; right: 25%; width: 110px; height: 80px; animation: float 4.5s ease-in-out infinite reverse; }
+        .img-5 { bottom: 25%; right: 10%; width: 100px; height: 100px; animation: pulse 3.5s ease-in-out infinite reverse; }
+
+        /* Kiểu cho thẻ chúc mừng sinh nhật */
+        .birthday-card {
+            background-color: rgba(255, 255, 255, 0.9); /* Nền trắng hơi trong suốt */
+            padding: 2rem;
+            border-radius: 1rem; /* Góc bo tròn */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Bóng lớn hơn */
+            text-align: center;
+            max-width: 600px;
+            width: 90%; /* Responsive width */
+            z-index: 20; /* Đảm bảo thẻ chúc mừng nằm trên các icon và ảnh */
+            position: relative; /* Để z-index hoạt động */
+        }
+
+        .birthday-card h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ef4444; /* Màu đỏ nổi bật */
+            margin-bottom: 1rem;
+        }
+
+        .birthday-card p {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Media queries cho thiết bị nhỏ hơn */
+        @media (max-width: 768px) {
+            .icon-container {
+                width: 30px; /* Nhỏ hơn trên mobile */
+                height: 30px;
+                padding: 0.25rem;
+            }
+            .icon-svg {
+                width: 20px;
+                height: 20px;
+            }
+            .image-item {
+                width: 80px !important; /* Nhỏ hơn trên mobile */
+                height: 80px !important;
+                padding: 0.25rem;
+            }
+            /* Điều chỉnh vị trí icon cho mobile nếu cần */
+            .icon-1 { top: 5%; left: 2%; }
+            .icon-2 { top: 15%; right: 2%; }
+            .icon-3 { bottom: 10%; left: 5%; }
+            .icon-4 { bottom: 2%; right: 2%; }
+            .icon-5 { top: 45%; left: 50%; transform: translate(-50%, -50%); }
+
+            /* Điều chỉnh vị trí ảnh cho mobile nếu cần */
+            .img-1 { top: 5%; left: 10%; }
+            .img-2 { top: 25%; right: 2%; }
+            .img-3 { bottom: 5%; left: 10%; }
+            .img-4 { top: 10%; right: 15%; }
+            .img-5 { bottom: 15%; right: 2%; }
+
+            .birthday-card h1 {
+                font-size: 1.8rem;
+            }
+            .birthday-card p {
+                font-size: 0.9rem;
+            }
+            .birthday-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
-<body>
-    <div class="birthday-card">
-        <h1>Chúc mừng sinh nhật!</h1>
-        <p>Chúc bạn một tuổi mới thật nhiều niềm vui, hạnh phúc và thành công. Mong mọi điều tốt lành sẽ đến với bạn!</p>
-        <p>Yêu thương,</p>
-        <p>[Tên của bạn]</p>
+<body class="bg-gradient-to-br from-blue-200 to-purple-300 min-h-screen flex items-center justify-center relative">
+
+    <!-- Container chính cho các biểu tượng, ảnh và thẻ chúc mừng -->
+    <div class="relative w-full h-full min-h-screen flex items-center justify-center">
+
+        <!-- Thẻ chúc mừng sinh nhật -->
+        <div class="birthday-card">
+            <h1>Chúc mừng sinh nhật!</h1>
+            <p>chúc chị Lài tuổi mới nhiều niềm vui hạnh phúc và thành công, mong mọi điều tốt lành sẽ đến với chị, thời gian qua chị, nên ít nhậu sống heathy, mong một ngày nào đó có kèo đi chơi chung nè.</p>
+            <p>Yêu thương,</p>
+            <p>[Lê Hữu Thảo]</p>
+        </div>
+
+        <!-- Các ảnh nhỏ chuyển động -->
+        <div class="image-item img-1">
+            <img src="https://lehuuthao.github.io/thiepsinhnhat/anhLai.jpg" alt="Ảnh trang trí 1" onerror="this.onerror=null;this.src='https://placehold.co/100x100/FFDDC1/FF6B6B?text=Error';">
+        </div>
+        <div class="image-item img-2">
+            <img src="https://lehuuthao.github.io/thiepsinhnhat/lai2.jpg" alt="Ảnh trang trí 2" onerror="this.onerror=null;this.src='https://placehold.co/120x90/C1FFDD/6BFF6B?text=Error';">
+        </div>
+        <div class="image-item img-3">
+            <img src="https://lehuuthao.github.io/thiepsinhnhat/lai3.jpg" alt="Ảnh trang trí 3" onerror="this.onerror=null;this.src='https://placehold.co/90x110/DDC1FF/6B6BFF?text=Error';">
+        </div>
+        <div class="image-item img-4">
+            <img src="https://lehuuthao.github.io/thiepsinhnhat/lai3.jpg" alt="Ảnh trang trí 4" onerror="this.onerror=null;this.src='https://placehold.co/110x80/FFFFC1/FFD700?text=Error';">
+        </div>
+        <div class="image-item img-5">
+            <img src="https://lehuuthao.github.io/thiepsinhnhat/lai3.jpg" alt="Ảnh trang trí 5" onerror="this.onerror=null;this.src='https://placehold.co/100x100/C1FFFF/00CED1?text=Error';">
+        </div>
+
+        <!-- Biểu tượng Trái tim nổi -->
+        <div class="icon-container float-animation bg-pink-400 p-3 text-white icon-1">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+        </div>
+
+        <!-- Biểu tượng Ngôi sao xoay -->
+        <div class="icon-container rotate-animation bg-yellow-400 p-3 text-white icon-2">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+        </div>
+
+        <!-- Biểu tượng Mặt trời nảy -->
+        <div class="icon-container bounce-animation bg-orange-500 p-3 text-white icon-3">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+                <path d="M12 2.5c-5.25 0-9.5 4.25-9.5 9.5s4.25 9.5 9.5 9.5 9.5-4.25 9.5-9.5-4.25-9.5-9.5-9.5zm0 17c-4.14 0-7.5-3.36-7.5-7.5s3.36-7.5 7.5-7.5 7.5 3.36 7.5 7.5-3.36 7.5-7.5 7.5zM12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+            </svg>
+        </div>
+
+        <!-- Biểu tượng Đám mây nổi chậm -->
+        <div class="icon-container float-animation bg-blue-300 p-3 text-white icon-4" style="animation-duration: 6s;">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-3.72 0-6.73 2.92-7.07 6.5C1.94 11.66 0 14.28 0 17c0 3.87 3.13 7 7 7h12c3.87 0 7-3.13 7-7 0-3.59-2.65-6.49-6.65-6.96zM19 20H7c-2.76 0-5-2.24-5-5s2.24-5 5-5h12c2.76 0 5 2.24 5 5s-2.24 5-5 5z"/>
+            </svg>
+        </div>
+
+        <!-- Biểu tượng Tia chớp nhấp nháy -->
+        <div class="icon-container pulse-animation bg-yellow-600 p-3 text-white icon-5">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+                <path d="M11 15H6l7-14v8h5l-7 14z"/>
+            </svg>
+        </div>
+
+        <!-- Biểu tượng Lá nổi -->
+        <div class="icon-container float-animation bg-green-500 p-3 text-white icon-6" style="animation-delay: 1s;">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+                <path d="M17 7c-2.76 0-5 2.24-5 5s2.24 5 5 5c.42 0 .82-.06 1.2-.17l2.84 2.84c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L18.6 15.8c.11-.38.17-.78.17-1.2 0-2.76-2.24-5-5-5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+            </svg>
+        </div>
+
+        <!-- Biểu tượng Giọt nước nổi -->
+        <div class="icon-container float-animation bg-blue-500 p-3 text-white icon-7" style="animation-duration: 5s; animation-delay: 0.5s;">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+            </svg>
+        </div>
+
+        <!-- Biểu tượng Nốt nhạc xoay -->
+        <div class="icon-container rotate-animation bg-purple-500 p-3 text-white icon-8" style="animation-duration: 8s;">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-8zm-2 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+            </svg>
+        </div>
+
+        <!-- Biểu tượng Cây nảy -->
+        <div class="icon-container bounce-animation bg-green-700 p-3 text-white icon-9" style="animation-delay: 0.7s;">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+                <path d="M17 10.5C17 8 14.5 6 12 6s-5 2-5 4.5c0 1.38.62 2.63 1.62 3.5H7v2h2v2h2v-2h2v2h2v-2h-1.62c1-0.87 1.62-2.12 1.62-3.5zM12 18h-2v-2h2v2zm0-4h-2v-2h2v2z"/>
+            </svg>
+        </div>
+
+        <!-- Biểu tượng Quả bóng nhấp nháy -->
+        <div class="icon-container pulse-animation bg-red-500 p-3 text-white icon-10" style="animation-duration: 1.5s;">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+            </svg>
+        </div>
+
     </div>
+
 </body>
 </html>
